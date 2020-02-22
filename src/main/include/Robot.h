@@ -12,10 +12,18 @@
 #include <AHRS.h>
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/Joystick.h>
 #include <frc/buttons/JoystickButton.h>
-#include <rev/CANSparkMax.h>
+#include <rev/SparkMax.h>
+#include <frc/spark.h>
+#include <frc/drive/MecanumDrive.h>
+#include <frc/DriverStation.h>
+#include <frc/PIDOutput.h>
+#include <frc/PIDController.h>
 
-class Robot : public frc::TimedRobot {
+using namespace frc;
+class Robot : public frc::TimedRobot,
+              public frc::PIDOutput {
  public:
   void RobotInit() override;
   void RobotPeriodic() override;
@@ -24,16 +32,16 @@ class Robot : public frc::TimedRobot {
   void TeleopInit() override;
   void TeleopPeriodic() override;
   void TestPeriodic() override;
-
+  void PIDWrite(double output);
  private:
   frc::SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
-  const static double kP = 0.03f;
-  const static double kI = 0.00f;
-  const static double kD = 0.00f;
-  const static double kF = 0.00f;
+  constexpr static double kP = 0.03f;
+  constexpr static double kI = 0.00f;
+  constexpr static double kD = 0.00f;
+  constexpr static double kF = 0.00f;
 
   /* This tuning parameter indicates how close to "on target" the    */
   /* PID Controller will attempt to get.                             */
@@ -42,8 +50,10 @@ class Robot : public frc::TimedRobot {
   Spark* frontRight; 
   Spark* rearRight;
   MecanumDrive* robotDrive;
-  JoyStick* stick;
+  Joystick* stick;
+  PIDController* turnController;
 
-  const static double kToleranceDegrees = 2.0f;
+  float rotateToAngleRate;
+  constexpr static double kToleranceDegrees = 2.0f;
   AHRS* ahrs;
 };

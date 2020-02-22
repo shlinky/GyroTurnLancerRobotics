@@ -16,13 +16,13 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  frontLeft = new Spark(frontLeftChannel);
-  rearLeft = new Spark(rearLeftChannel);
-  frontRight = new Spark(frontRightChannel);
-  rearRight = new Spark(rearRightChannel);
+  frontLeft = new Spark(0);
+  rearLeft = new Spark(0);
+  frontRight = new Spark(0);
+  rearRight = new Spark(0);
   robotDrive = new MecanumDrive(*frontLeft, *rearLeft,
                                 *frontRight, *rearRight);
-  stick = new Joystick(joystickChannel);
+  stick = new Joystick(0);
 	rotateToAngleRate = 0.0f;
 
   robotDrive->SetExpiration(0.1);
@@ -54,7 +54,7 @@ void Robot::RobotInit() {
     const char *p_err_msg = err_msg.c_str();
     DriverStation::ReportError(p_err_msg);
   }
-  turnController = new PIDController(kP, kI, kD, kF, ahrs, this);
+  turnController = new PIDController(kP, kI, kD, kF, ahrs, this, 0.05);
   turnController->SetInputRange(-180.0f,  180.0f);
   turnController->SetOutputRange(-1.0, 1.0);
   turnController->SetAbsoluteTolerance(kToleranceDegrees);
