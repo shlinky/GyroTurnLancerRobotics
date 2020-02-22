@@ -16,14 +16,13 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  robotDrive = new MecanumDrive(*frontLeft, *rearLeft,
-                                *frontRight, *rearRight);
+  robotDrive = new RobotDrive(*frontLeft, *frontRight);
   stick = new Joystick(0);
 	rotateToAngleRate = 0.0f;
 
   robotDrive->SetExpiration(0.1);
   frontLeft->SetInverted(true); // invert the left side motors
-  rearLeft->SetInverted(true);  // (remove/modify to match your robot)
+  //rearLeft->SetInverted(true);  // (remove/modify to match your robot)
   try
   {
     /***********************************************************************
@@ -120,7 +119,7 @@ void Robot::TeleopPeriodic() {
     /* Y axis for forward movement, and the current           */
     /* calculated rotation rate (or joystick Z axis),         */
     /* depending upon whether "rotate to angle" is active.    */
-    robotDrive->DriveCartesian(stick->GetX(), stick->GetY(),
+    robotDrive->MecanumDrive_Cartesian(stick->GetX(), stick->GetY(),
                               currentRotationRate, ahrs->GetAngle());
   } catch (std::exception& ex ) {
     std::string err_string = "Error communicating with Drive System:  ";
