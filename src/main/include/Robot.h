@@ -13,9 +13,8 @@
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/Joystick.h>
+#include <rev/CANSparkMax.h>
 #include <frc/buttons/JoystickButton.h>
-#include <rev/SparkMax.h>
-#include <frc/spark.h>
 #include <frc/drive/MecanumDrive.h>
 #include <frc/DriverStation.h>
 #include <frc/PIDOutput.h>
@@ -45,10 +44,14 @@ class Robot : public frc::TimedRobot,
 
   /* This tuning parameter indicates how close to "on target" the    */
   /* PID Controller will attempt to get.                             */
-  Spark* frontLeft; 
-  Spark* rearLeft; 
-  Spark* frontRight; 
-  Spark* rearRight;
+
+  static const int lfID = 1, lbID = 2, rfID = 3, rbID = 4;
+
+  rev::CANSparkMax* frontLeft = new rev::CANSparkMax(lfID, rev::CANSparkMax::MotorType::kBrushless);
+  rev::CANSparkMax* rearLeft = new rev::CANSparkMax(lbID, rev::CANSparkMax::MotorType::kBrushless);
+  rev::CANSparkMax* frontRight = new rev::CANSparkMax(rfID, rev::CANSparkMax::MotorType::kBrushless);
+  rev::CANSparkMax* rearRight = new rev::CANSparkMax(rbID, rev::CANSparkMax::MotorType::kBrushless);
+
   MecanumDrive* robotDrive;
   Joystick* stick;
   PIDController* turnController;

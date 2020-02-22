@@ -16,10 +16,6 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  frontLeft = new Spark(0);
-  rearLeft = new Spark(0);
-  frontRight = new Spark(0);
-  rearRight = new Spark(0);
   robotDrive = new MecanumDrive(*frontLeft, *rearLeft,
                                 *frontRight, *rearRight);
   stick = new Joystick(0);
